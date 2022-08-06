@@ -1,17 +1,12 @@
-import networkx as nx
-
-from data_gathering.similar_bands_gather import \
-    SimilarBandsGather
-from data_scraping.webpage_content import WebpageContent
+from data_structures.bands_flowchart import BandsFlowchart
 
 if __name__ == '__main__':
-    url_initial_band = 'https://www.metal-archives.com/bands/Meshuggah/21'
-    data = url_initial_band.split('/')
-    name_band, id_band = data[4], int(data[5])
+    flowchart = list(BandsFlowchart.build(21, 119))
 
-    soup = WebpageContent.load(f'https://www.metal-archives.com/band/ajax-recommendations/id/{id_band}')
+    source_band_id = flowchart[0]
+    target_band_id = flowchart[-1]
 
-    G = nx.Graph()
-    G.add_node(id_band)
-    nx.set_node_attributes(G, {id_band: name_band}, name='name_band')
-    G = SimilarBandsGather.gather(G, soup, id_band)
+    print(f'If you like band {source_band_id} and want to like band {target_band_id}, ' \
+        'you should listen to the following bands in this order:')
+
+    print(*flowchart, sep=" -> ")
