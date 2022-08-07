@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
-from data_scraping.chrome_web_driver import ChromeWebDriver
-from data_scraping.dynamic_content_loader import DynamicContentLoader
+from dynamic_web_scraper.chrome_web_driver import ChromeWebDriver
+from dynamic_web_scraper.dynamic_content_loader import DynamicContentLoader
 
 
 class WebpageContent:

@@ -1,7 +1,8 @@
 from typing import Iterator
 
 from bs4 import BeautifulSoup
-from data_scraping.webpage_content import WebpageContent
+
+from dynamic_web_scraper.webpage_content import WebpageContent
 
 
 class SimilarBands:
