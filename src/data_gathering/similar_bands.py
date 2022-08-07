@@ -26,7 +26,7 @@ class SimilarBands:
         return url
 
     @classmethod
-    def __extract_band_id(cls, band_url) -> int:
+    def __extract_band_id(cls, band_url: BeautifulSoup) -> int:
         href = str(band_url.get('href'))
         data = str(href).split('/')
 

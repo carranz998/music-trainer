@@ -1,12 +1,8 @@
+from data_gathering.band_data import BandData
 from data_structures.bands_flowchart import BandsFlowchart
 
 if __name__ == '__main__':
-    flowchart = list(BandsFlowchart.build(21, 119))
+    bands_flowchart_ids = BandsFlowchart.generate_flowchart(source_band_id=34361, target_band_id=125)
+    bands_flowchart_names = map(BandData.scrap_name, bands_flowchart_ids)
 
-    source_band_id = flowchart[0]
-    target_band_id = flowchart[-1]
-
-    print(f'If you like band {source_band_id} and want to like band {target_band_id}, ' \
-        'you should listen to the following bands in this order:')
-
-    print(*flowchart, sep=" -> ")
+    print(*bands_flowchart_names, sep=" -> ")

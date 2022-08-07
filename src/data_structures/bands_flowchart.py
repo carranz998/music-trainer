@@ -1,38 +1,41 @@
-from typing import Iterable
+from typing import Any, Iterable
 
 import networkx as nx
-from data_gathering.band_data import BandData
 from data_gathering.similar_bands import SimilarBands
 
 
 class BandsFlowchart:
 	@classmethod
-	def build(cls, source_band_id: int, target_band_id: int) -> Iterable[str]:
-		G_brute_force = cls.__build_brute_force_graph(source_band_id, target_band_id)
-		shortest_path = list(nx.dijkstra_path(G_brute_force, source_band_id, target_band_id))
-
-		band_flowchart = [BandData.scrap_name(band_id) for band_id in shortest_path]
-
-		return band_flowchart
+	def generate_flowchart(cls, source_band_id: int, target_band_id: int) -> Iterable[int]:
+		G_expanded = cls.__generate_expanded_graph(source_band_id, target_band_id) 
+		flowchart = cls.__calculate_shortest_path(G_expanded, source_band_id, target_band_id)
+		
+		return flowchart
 
 	@classmethod
-	def __build_brute_force_graph(cls, source_band_id: int, target_band_id: int) -> nx.Graph:
-		G_bands_flowchart = nx.Graph()
-		G_bands_flowchart.add_node(source_band_id)
+	def __generate_expanded_graph(cls, source_band_id: int, target_band_id: int) -> nx.Graph:
+		G_expanded = nx.Graph()
+		G_expanded.add_node(source_band_id)
 
-		current_band_id = source_band_id
-		next_band_id = current_band_id
+		queue = [source_band_id]
+		
+		while queue:
+			current_band_id = queue.pop(0)
 
-		while current_band_id != target_band_id:
-			for similar_band_id in SimilarBands.gather(next_band_id):
-				G_bands_flowchart.add_edge(current_band_id, similar_band_id)
+			for similar_band_id in SimilarBands.gather(current_band_id):
+				if similar_band_id not in G_expanded.nodes:
+					G_expanded.add_edge(current_band_id, similar_band_id) 
+					
+					if similar_band_id == target_band_id:
+						queue = []
+						break
+					else:
+						queue.append(similar_band_id)
 
-				next_band_id = similar_band_id
-				
-				if similar_band_id == target_band_id:
-					current_band_id = target_band_id
-					break
+		return G_expanded
 
-			current_band_id = next_band_id
+	@classmethod
+	def __calculate_shortest_path(cls, G: nx.Graph, source_band_id: int, target_band_id: int) -> Iterable[Any]:
+		shortest_path = list(nx.dijkstra_path(G, source_band_id, target_band_id))
 
-		return G_bands_flowchart
+		return shortest_path
