@@ -23,6 +23,10 @@ class MainFrame:
         self.parent.mainloop()
 
     def quit(self):
+        for handle in self.driver.window_handles:
+            self.driver.switch_to.window(handle)
+            self.driver.close()
+
         self.parent.destroy()
     
     def capture_source_url(self) -> None:
