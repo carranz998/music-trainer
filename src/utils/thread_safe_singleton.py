@@ -3,7 +3,7 @@ from threading import Lock
 
 class ThreadSafeSingleton(type):
     _instances = {}
-    _lock: Lock = Lock()
+    _lock = Lock()
 
     def __call__(cls, *args, **kwargs):
         with cls._lock:
