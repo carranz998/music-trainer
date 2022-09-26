@@ -1,15 +1,16 @@
 from typing import Iterator
 
+import requests
 from bs4 import BeautifulSoup, Tag
-from web_browser_management.webpage_content import WebpageContent
 
 
 class SimilarBandsIds:
     @classmethod
     def gather(cls, pivot_band_id: int) -> Iterator[int]:
         similar_bands_url = cls.__get_similar_bands_url(pivot_band_id)
-        similar_bands_soup = WebpageContent.load(similar_bands_url)
-        
+        similar_bands_data = requests.get(similar_bands_url).content
+
+        similar_bands_soup = BeautifulSoup(similar_bands_data, 'html.parser')
         similar_bands_ids = cls.__scrap_similar_bands_ids(similar_bands_soup)
 
         return similar_bands_ids
