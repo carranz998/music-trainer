@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import requests
 from web_browser_management.webpage_content import WebpageContent
 
 
@@ -6,7 +7,9 @@ class BandName:
     @classmethod
     def gather(cls, band_id: int) -> str:
         band_url = cls.__get_band_url(band_id)
-        band_soup = WebpageContent.load(band_url)
+        similar_bands_data = requests.get(band_url).content
+
+        band_soup = BeautifulSoup(similar_bands_data, 'html.parser')
 
         band_name = cls.__scrap_band_name(band_soup)
 

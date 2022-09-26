@@ -4,8 +4,7 @@ from data_pipeline.data_scraping.similar_bands_ids import SimilarBandsIds
 
 class SimilarBandsGraph:
     @classmethod
-    def build(cls, source_band_id: int, target_band_id: int) -> nx.Graph:
-        G_similar_bands = nx.Graph()
+    def build(cls, G_similar_bands: nx.Graph, source_band_id: int, target_band_id: int) -> nx.Graph:
         G_similar_bands.add_node(source_band_id)
 
         pending_pivot_bands_ids = [source_band_id]
