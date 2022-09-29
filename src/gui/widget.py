@@ -17,13 +17,9 @@ class Widget:
     def __build_widget_components(self) -> tk.Tk:
         root_window = tk.Tk()
 
-        source_band_button = tk.Button(text='Capture source band', command=self.__capture_source_url)
-        target_band_button = tk.Button(text='Capture target band', command=self.__capture_target_url)
-        confirm_button = tk.Button(text='Confirm', command=self.__quit)
-
-        source_band_button.pack()
-        target_band_button.pack()
-        confirm_button.pack()
+        tk.Button(text='Capture source band', command=self.__capture_source_url).pack()
+        tk.Button(text='Capture target band', command=self.__capture_target_url).pack()
+        tk.Button(text='Confirm', command=self.__quit).pack()
 
         return root_window
 
