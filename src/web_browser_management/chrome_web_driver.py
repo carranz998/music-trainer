@@ -7,9 +7,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 class ChromeWebDriver:
     @classmethod
     def build(cls) -> webdriver.Chrome:
-        driver = webdriver.Chrome(options=cls.__build_options(), service=cls.__build_service())
-
-        return driver
+        return webdriver.Chrome(
+            options=cls.__build_options(),
+            service=cls.__build_service()
+        )
 
     @classmethod
     def __build_options(cls) -> Options:

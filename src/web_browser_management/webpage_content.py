@@ -12,9 +12,7 @@ class WebpageContent:
         chrome_web_driver = ChromeWebDriver.build()
         page_dynamic_content = cls.__load_dynamic_content(url, chrome_web_driver)
 
-        soup = BeautifulSoup(page_dynamic_content, 'html.parser')
-
-        return soup
+        return BeautifulSoup(page_dynamic_content, 'html.parser')
 
     @classmethod
     def __load_dynamic_content(cls, url: str, chrome_web_driver: webdriver.Chrome, load_time: int=2) -> str:
@@ -22,6 +20,4 @@ class WebpageContent:
             chrome_web_driver.get(url)
             time.sleep(load_time)
 
-            page_dynamic_content = chrome_web_driver.page_source
-
-        return page_dynamic_content
+            return chrome_web_driver.page_source
