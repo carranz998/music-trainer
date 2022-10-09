@@ -1,28 +1,19 @@
-import itertools
+from pathlib import Path
 
-import networkx as nx
+from flask import Flask
+from flask_restful import Api
 
-from data_scraping.band_name_scraper import BandNameScraper
-from data_scraping.similar_bands_ids_scraper import SimilarBandsIdsScraper
-from gui.widget import Widget
-from utils.bfs import bfs
-from utils.data_collector import DataCollector
+from app_components.api_endpoints import ApiEndpoints
+from app_components.api_resources import ApiResources
 
-if __name__ == '__main__':
-    widget = Widget()
+if __name__ == "__main__":
+    app = Flask(__name__)
+    api = Api(app)
 
-    source_bands_ids = DataCollector().data['source_band_id']
-    target_bands_ids = DataCollector().data['target_band_id']
+    resources_uri = Path('src\\resources')
+    module_name = resources_uri.stem
 
-    G_similar_bands = nx.Graph()
+    for endpoint_name in ApiEndpoints.iterate(resources_uri):
+        ApiResources.add(api, module_name, endpoint_name)
 
-    similar_bands_scraper = SimilarBandsIdsScraper().scrap
-    band_name_scraper = BandNameScraper().scrap
-
-    for source_band_id, target_band_id in itertools.product(source_bands_ids, target_bands_ids):
-        bfs(G_similar_bands, source_band_id, target_band_id, similar_bands_scraper)
-        bands_flowchart_ids = nx.dijkstra_path(G_similar_bands, source_band_id, target_band_id)
-
-        bands_flowchart_names = map(band_name_scraper, bands_flowchart_ids)
-
-        print(*bands_flowchart_names, sep=' -> ')
+    app.run(port=5000, debug=True)
