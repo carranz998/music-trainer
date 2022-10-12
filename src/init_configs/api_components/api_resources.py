@@ -1,11 +1,11 @@
-from flask_restful import Api
+from flask_restful import Resource
 from utils.module import Module
 
 
 class ApiResources:
     @classmethod
-    def add(cls, api: Api, module_name: str, endpoint_name: str) -> None:
+    def instantiate(cls, module_name: str, endpoint_name: str) -> Resource:
         class_name = endpoint_name[1].capitalize() + endpoint_name[2:]
         class_object = Module.instantiate_class(module_name, class_name)
 
-        api.add_resource(class_object, endpoint_name)
+        return class_object

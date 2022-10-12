@@ -1,19 +1,14 @@
 from pathlib import Path
 
-from flask import Flask
-from flask_restful import Api
-
-from app_components.api_endpoints import ApiEndpoints
-from app_components.api_resources import ApiResources
+from init_configs.api_init import api_init
+from init_configs.app_init import app_init
+from init_configs.module_init import module_init
 
 if __name__ == "__main__":
-    app = Flask(__name__)
-    api = Api(app)
+    resources_directory_uri = Path('src\\resources')
 
-    resources_uri = Path('src\\resources')
-    module_name = resources_uri.stem
-
-    for endpoint_name in ApiEndpoints.iterate(resources_uri):
-        ApiResources.add(api, module_name, endpoint_name)
+    app = app_init(__name__)
+    module_init(resources_directory_uri)
+    api_init(app, resources_directory_uri)
 
     app.run(port=5000, debug=True)
