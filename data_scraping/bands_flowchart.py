@@ -1,11 +1,10 @@
 from typing import Any
 
 import networkx as nx
-from data_scraping.similar_bands_ids_scraper import SimilarBandsIdsScraper
-from algorithms.bfs import bfs
+from .similar_bands_ids_scraper import SimilarBandsIdsScraper
+from .bfs import bfs
 
-
-def bands_flowchart(source_band_id: int, target_band_id: int) -> list[Any] | dict[Any, list[Any]]:
+def scrap_bands_flowchart(source_band_id: int, target_band_id: int) -> list[Any] | dict[Any, list[Any]]:
     G_similar_bands = nx.Graph()
     similar_bands_scraper = SimilarBandsIdsScraper().scrap
 
