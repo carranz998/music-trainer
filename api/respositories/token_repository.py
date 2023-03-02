@@ -5,7 +5,7 @@ from typing import Any
 
 from ..db import session
 from ..models import TokenModel
-from .utils.sqlalchemy_model_encoder import SqlAlchemyModelEncoder
+from .encoders.sqlalchemy_model_encoder import SqlAlchemyModelEncoder
 
 
 class TokenRepository(ABC):
