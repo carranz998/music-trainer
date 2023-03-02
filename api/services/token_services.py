@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
+from typing import Any
 
 from flask import Blueprint, jsonify, request
 
-from ..respositories import TokenRepository
-from ..respositories.token_repository import SqlAlchemyTokenRepository
+from ..respositories import SqlAlchemyTokenRepository, TokenRepository
 
 token_blueprint = Blueprint('tokens', __name__, url_prefix='/tokens')
 
@@ -14,16 +14,14 @@ class TokenService:
         self.token_repository = token_repository
 
     def create_token(self, name: str, token: str, expiration_date: datetime) -> None:
-        self.token_repository.create_token(
-            name, token, expiration_date
-        )
+        self.token_repository.create_token(name, token, expiration_date)
 
-    def list_all_tokens(self):
+    def list_all_tokens(self) -> list[dict[str, Any]]:
         return self.token_repository.list_all_tokens()
 
 
 @token_blueprint.route('/create', methods=['POST'])
-def create_token():
+def create_token() -> None:
     token_repository = SqlAlchemyTokenRepository()
     token_service = TokenService(token_repository)
 
@@ -37,7 +35,7 @@ def create_token():
 
 
 @token_blueprint.route('/list', methods=['POST'])
-def list_all_tokens():
+def list_all_tokens() -> list[dict[str, Any]]:
     token_repository = SqlAlchemyTokenRepository()
     token_service = TokenService(token_repository)
 
