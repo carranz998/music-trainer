@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from typing import Any
 
-from ...db import Base
+from ...postgresql_db import Base
 
 
 class SqlAlchemyModelEncoder(json.JSONEncoder):
@@ -21,3 +21,7 @@ class SqlAlchemyModelEncoder(json.JSONEncoder):
             return data
 
         return json.JSONEncoder.default(self, obj)
+
+
+def convert_to_json(row):
+    return json.loads(json.dumps(row, cls=SqlAlchemyModelEncoder))

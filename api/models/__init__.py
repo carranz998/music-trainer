@@ -1,7 +1,8 @@
 import sqlalchemy
 
-from ..db import engine, Base
-from .token_model import TokenModel
+from ..postgresql_db import Base, engine
+from .sqlalchemy_band_model import SQLAlchemyBandModel
+from .sqlalchemy_token_model import SQLAlchemyTokenModel
 
 
 def create_all_tables():
@@ -9,11 +10,11 @@ def create_all_tables():
         try:
             subclass.__table__.create(engine)
 
-        except sqlalchemy.exc.ProgrammingError as e:
+        except sqlalchemy.exc.ProgrammingError:
             pass
 
 
 create_all_tables()
 
 
-__all__ = ['TokenModel']
+__all__ = ['SQLAlchemyBandModel', 'SQLAlchemyTokenModel']

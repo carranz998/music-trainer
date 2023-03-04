@@ -1,5 +1,7 @@
-from .token_repository import SqlAlchemyTokenRepository, TokenRepository
+from .band_repository import BandRepository
+from .token_repository import SQLAlchemyTokenRepository, TokenRepository
 
 __all__ = [
-    'SqlAlchemyModelEncoder', 'SqlAlchemyTokenRepository', 'TokenRepository'
+    'BandRepository', 'SqlAlchemyModelEncoder',
+    'SQLAlchemyTokenRepository', 'TokenRepository'
 ]

@@ -1,11 +1,8 @@
-import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any
 
-from ..db import session
-from ..models import TokenModel
-from .encoders.sqlalchemy_model_encoder import SqlAlchemyModelEncoder
+from ..postgresql_db import session
+from ..models import SQLAlchemyTokenModel
 
 
 class TokenRepository(ABC):
@@ -14,13 +11,13 @@ class TokenRepository(ABC):
         pass
 
     @abstractmethod
-    def list_all_tokens(self) -> list[dict[str, Any]]:
+    def list_all_tokens(self):
         pass
 
 
-class SqlAlchemyTokenRepository(TokenRepository):
+class SQLAlchemyTokenRepository(TokenRepository):
     def create_token(self, name: str, token: str, expiration_date: datetime) -> None:
-        created_token = TokenModel(name, token, expiration_date)
+        created_token = SQLAlchemyTokenModel(name, token, expiration_date)
 
         try:
             session.add(created_token)
@@ -29,16 +26,9 @@ class SqlAlchemyTokenRepository(TokenRepository):
         except BaseException:
             session.rollback()
 
-    def list_all_tokens(self) -> list[dict[str, Any]]:
+    def list_all_tokens(self):
         try:
-            all_tokens = session.query(TokenModel).all()
-
-            data = [
-                json.loads(json.dumps(row, cls=SqlAlchemyModelEncoder))
-                for row in all_tokens
-            ]
-
-            return data
+            return session.query(SQLAlchemyTokenModel).all()
 
         except BaseException:
             return None

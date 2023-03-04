@@ -4,7 +4,8 @@ from typing import Any
 
 from flask import Blueprint, jsonify, request
 
-from ..respositories import SqlAlchemyTokenRepository, TokenRepository
+from ..respositories import SQLAlchemyTokenRepository, TokenRepository
+from ..services.encoders.sqlalchemy_model_encoder import convert_to_json
 
 token_blueprint = Blueprint('tokens', __name__, url_prefix='/tokens')
 
@@ -22,7 +23,7 @@ class TokenService:
 
 @token_blueprint.route('/create', methods=['POST'])
 def create_token() -> None:
-    token_repository = SqlAlchemyTokenRepository()
+    token_repository = SQLAlchemyTokenRepository()
     token_service = TokenService(token_repository)
 
     name = request.json['name']
@@ -36,9 +37,9 @@ def create_token() -> None:
 
 @token_blueprint.route('/list', methods=['POST'])
 def list_all_tokens() -> list[dict[str, Any]]:
-    token_repository = SqlAlchemyTokenRepository()
+    token_repository = SQLAlchemyTokenRepository()
     token_service = TokenService(token_repository)
 
-    all_tokens = token_service.list_all_tokens()
+    data = list(map(convert_to_json, token_service.list_all_tokens()))
 
-    return jsonify({'data': all_tokens}), 200
+    return jsonify({'data': data}), 200

@@ -2,10 +2,10 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String
 
-from ..db import Base
+from ..postgresql_db import Base
 
 
-class TokenModel(Base):
+class SQLAlchemyTokenModel(Base):
     __tablename__ = 'tokens'
 
     id = Column(Integer, primary_key=True)
