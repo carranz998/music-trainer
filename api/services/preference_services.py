@@ -20,7 +20,7 @@ class PreferenceService:
             token_id, band_id, preference_level
         )
 
-    def list_all_tokens(self) -> list[dict[str, Any]]:
+    def list_all_preferences(self) -> list[dict[str, Any]]:
         return self.preference_repository.list_all_preferences()
 
 
@@ -39,10 +39,10 @@ def create_preference() -> None:
 
 
 @preference_blueprint.route('/list', methods=['POST'])
-def list_all_tokens() -> list[dict[str, Any]]:
+def list_all_preferences() -> list[dict[str, Any]]:
     preference_repository = SQLAlchemyPreferencesRepository()
     preference_service = PreferenceService(preference_repository)
 
-    data = list(map(convert_to_json, preference_service.list_all_tokens()))
+    data = list(map(convert_to_json, preference_service.list_all_preferences()))
 
     return jsonify({'data': data}), 200
