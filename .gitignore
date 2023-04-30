@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Spotify's access token parameters file
+spotify_api_facade/services/tokens/access_token_parameters.json
