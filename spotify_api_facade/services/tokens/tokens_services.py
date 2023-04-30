@@ -7,7 +7,15 @@ from ...utils.file_management import file_exists, read_json, write_in_json
 from . import access_token_parameters_uri, authorization_credentials
 
 
-def retrieve_access_token() -> dict[str, Any]:
+def with_token(func):
+    def wrapper(*args, **kwargs):
+        access_token, token_type = __retrieve_access_token()
+
+        return func(access_token, token_type, *args, **kwargs)
+    return wrapper
+
+
+def __retrieve_access_token() -> tuple[str, str]:
     if file_exists(access_token_parameters_uri):
         access_token_parameters = read_json(access_token_parameters_uri)
         access_token = access_token_parameters['access_token']

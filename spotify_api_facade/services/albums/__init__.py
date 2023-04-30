@@ -1,5 +1,5 @@
-from .albums_services import album_tracks
+from .albums_services import retrieve_album_tracks_names
 
 __all__ = [
-    'album_tracks'
+    'retrieve_album_tracks_names'
 ]
