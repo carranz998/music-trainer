@@ -17,7 +17,7 @@ def retrieve_album_tracks_names():
         .retrieve_album_tracks_names(album_id)
 
     formatted_data = {
-        'album_tracks_names': album_tracks_names
+        'album_tracks_names': list(album_tracks_names)
     }
 
     output_json = flask.jsonify(formatted_data), 200

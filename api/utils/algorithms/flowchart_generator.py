@@ -14,4 +14,3 @@ def generate_items_flowchart(source_item_id: Any, target_item_id: Any, similar_i
     )
 
     return items_flowchart
-    

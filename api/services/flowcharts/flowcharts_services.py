@@ -1,6 +1,7 @@
 import flask
 
 import spotify_api_facade
+
 from ...utils.algorithms.flowchart_generator import generate_items_flowchart
 
 flowcharts_blueprint = flask.Blueprint(
