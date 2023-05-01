@@ -2,7 +2,11 @@ import flask
 
 import spotify_api_facade
 
-albums_blueprint = flask.Blueprint('albums', __name__, url_prefix='/albums')
+albums_blueprint = flask.Blueprint(
+    'albums',
+    __name__,
+    url_prefix='/albums'
+)
 
 
 @albums_blueprint.route('/tracks_names')
