@@ -14,5 +14,5 @@ def retrieve_similar_artists_uri(access_token: str, token_type: str, artist_id: 
     options = build_authorization_options(url, access_token, token_type)
     response_json = send_http_request(requests.get, options)
 
-    for a in response_json['artists']:
-        yield a['uri'].split(':')[-1]
+    for artist_json in response_json['artists']:
+        yield artist_json['uri'].split(':')[-1]
