@@ -4,6 +4,8 @@ from typing import Any
 import requests
 
 from ...utils.file_management import file_exists, read_json, write_in_json
+from ...utils.http_request_facade import (build_authorization_options,
+                                          send_http_request)
 from . import access_token_parameters_uri, authorization_credentials
 
 
@@ -35,23 +37,17 @@ def __retrieve_access_token() -> tuple[str, str]:
 
 
 def __request_to_server() -> dict[str, Any]:
-    authorization_options = {
-        'url': 'https://accounts.spotify.com/api/token',
-        'headers': {
-            'Authorization': 'Basic ' + authorization_credentials
-        },
-        'form': {
-            'grant_type': 'client_credentials'
-        }
+    url = 'https://accounts.spotify.com/api/token'
+
+    options = build_authorization_options(
+        url, authorization_credentials, 'Basic')
+    options['data'] = {
+        'grant_type': 'client_credentials'
     }
 
-    response = requests.post(
-        url=authorization_options['url'],
-        headers=authorization_options['headers'],
-        data=authorization_options['form']
-    )
+    response_json = send_http_request(requests.post, options)
 
-    return response.json()
+    return response_json
 
 
 def __is_expired(expiration_date: str) -> bool:
