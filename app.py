@@ -1,7 +1,7 @@
 from flask import Flask
 
-from api.services.albums.albums_services import albums_blueprint
-from api.services.flowcharts.flowcharts_services import flowcharts_blueprint
+from api.blueprints import albums_blueprint, flowcharts_blueprint
+from api.services import album_tracks_names, generate_flowchart
 
 app = Flask(__name__)
 app.register_blueprint(albums_blueprint)

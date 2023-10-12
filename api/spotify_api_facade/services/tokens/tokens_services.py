@@ -9,15 +9,7 @@ from ...utils.http_request_facade import (build_authorization_options,
 from . import access_token_parameters_uri, authorization_credentials
 
 
-def with_token(func):
-    def wrapper(*args, **kwargs):
-        access_token, token_type = __retrieve_access_token()
-
-        return func(access_token, token_type, *args, **kwargs)
-    return wrapper
-
-
-def __retrieve_access_token() -> tuple[str, str]:
+def get_access_token() -> tuple[str, str]:
     if file_exists(access_token_parameters_uri):
         access_token_parameters = read_json(access_token_parameters_uri)
         access_token = access_token_parameters['access_token']
