@@ -11,7 +11,7 @@ class SpotifyApiCallBackbone(ABC):
         self._request_json = None
         self._response_json = None
 
-    def request(self) -> None:
+    def request_to_spotify_api(self) -> None:
         self._url = self._build_url()
         http_method = self._select_http_method()
 
