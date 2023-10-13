@@ -11,7 +11,7 @@ def generate_flowchart():
     target_artist_id = flask.request.json['target_artist_id']
 
     def similar_artists_gather(source_artist_id):
-        return SimilarArtistsUri(source_artist_id).request_to_spotify_api()
+        return SimilarArtistsUri(source_artist_id).request_to_api()
 
     artists_uri_flowchart = generate_items_flowchart(
         source_artist_id,

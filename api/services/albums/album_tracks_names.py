@@ -8,10 +8,8 @@ from api.spotify_api_facade import AlbumTracksNames
 def album_tracks_names():
     album_id = flask.request.json['album_id']
 
-    album_tracks_names = AlbumTracksNames(album_id).request_to_spotify_api()
-
     formatted_data = {
-        'album_tracks_names': list(album_tracks_names)
+        'album_tracks_names': AlbumTracksNames(album_id).request_to_api()
     }
 
     return flask.jsonify(formatted_data), 200

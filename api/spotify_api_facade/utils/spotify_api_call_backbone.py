@@ -3,11 +3,8 @@ from typing import Any, Callable
 
 import requests
 
-from api.spotify_api_facade.utils.credentials import (
-    access_token_parameters_uri, authorization_credentials)
-from api.spotify_api_facade.utils.file_management import (file_exists,
-                                                          is_expired,
-                                                          read_json, save)
+from api.spotify_api_facade.utils.api_credentials import ApiCredentials
+from api.spotify_api_facade.utils.token_cache_file import TokenCacheFile
 
 
 class SpotifyApiCallBackbone(ABC):
@@ -16,7 +13,7 @@ class SpotifyApiCallBackbone(ABC):
         self._request_json = None
         self._response_json = None
 
-    def request_to_spotify_api(self) -> None:
+    def request_to_api(self) -> None:
         cached_response_json = self._get_cached_response_json()
         if cached_response_json:
             return cached_response_json
@@ -36,13 +33,13 @@ class SpotifyApiCallBackbone(ABC):
         return None
 
     def _build_request_json(self) -> dict[str, Any]:
-        access_token, token_type = Token().request_to_spotify_api()
+        access_token, token_type = Token().request_to_api()
 
         return {
-            'url': self._url,
             'headers': {
                 'Authorization': f'{token_type} {access_token}'
-            }
+            },
+            'url': self._url
         }
 
     def __send_http_request(self, requests_method: Callable) -> dict[str, Any]:
@@ -64,31 +61,24 @@ class SpotifyApiCallBackbone(ABC):
 
 
 class Token(SpotifyApiCallBackbone):
+    def __init__(self) -> None:
+        self.token_cache_file = TokenCacheFile()
+
     def _build_url(self):
         return 'https://accounts.spotify.com/api/token'
 
     def _get_cached_response_json(self):
-        if file_exists(access_token_parameters_uri):
-            access_token_parameters = read_json(access_token_parameters_uri)
-            access_token = access_token_parameters['access_token']
-            expiration_date = access_token_parameters['expiration_date']
-            token_type = access_token_parameters['token_type']
-
-            if not is_expired(expiration_date):
-                print('cached')
-                return access_token, token_type
-        print('not cached')
-        return None
+        return self.token_cache_file.read()
 
     def _build_request_json(self):
         return {
-            'url': self._url,
-            'headers': {
-                'Authorization': f'Basic {authorization_credentials}'
-            },
             'data': {
                 'grant_type': 'client_credentials'
-            }
+            },
+            'headers': {
+                'Authorization': f'Basic {ApiCredentials().authorization_credentials}'
+            },
+            'url': self._url
         }
 
     def _select_http_method(self) -> Callable[..., Any]:
@@ -98,6 +88,6 @@ class Token(SpotifyApiCallBackbone):
         access_token = self._response_json['access_token']
         token_type = self._response_json['token_type']
 
-        save(self._response_json)
+        self.token_cache_file.write(self._response_json)
 
         return access_token, token_type
