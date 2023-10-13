@@ -17,10 +17,7 @@ class SimilarArtistsUri(SpotifyApiCallBackbone):
         return requests.get
 
     def _postprocess_response_json(self):
-        items = []
-
-        for artist_json in self._response_json['artists']:
-            item = artist_json['uri'].split(':')[-1]
-            items.append(item)
-
-        return items
+        return [
+            artist_json['uri'].split(':')[-1]
+            for artist_json in self._response_json['artists']
+        ]

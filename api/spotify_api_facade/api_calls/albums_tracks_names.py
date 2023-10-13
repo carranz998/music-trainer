@@ -17,10 +17,7 @@ class AlbumTracksNames(SpotifyApiCallBackbone):
         return requests.get
 
     def _postprocess_response_json(self):
-        items = []
-
-        for track_json in self._response_json['items']:
-            item = track_json['name']
-            items.append(item)
-
-        return items
+        return [
+            track_json['name']
+            for track_json in self._response_json['items']
+        ]
