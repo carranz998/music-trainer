@@ -5,7 +5,7 @@ from api.spotify_api_facade import AlbumTracksNames
 
 
 @albums_blueprint.route('/tracks_names')
-def album_tracks_names():
+def album_tracks_names() -> tuple[flask.Response, int]:
     album_id = flask.request.json['album_id']
 
     formatted_data = {

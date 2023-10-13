@@ -13,7 +13,7 @@ class SpotifyApiCallBackbone(ABC):
         self._request_json = None
         self._response_json = None
 
-    def request_to_api(self) -> None:
+    def request_to_api(self) -> Any:
         cached_response_json = self._get_cached_response_json()
         if cached_response_json:
             return cached_response_json
@@ -29,7 +29,7 @@ class SpotifyApiCallBackbone(ABC):
 
         return self._response_json
 
-    def _get_cached_response_json(self):
+    def _get_cached_response_json(self) -> Any | None:
         return None
 
     def _build_request_json(self) -> dict[str, Any]:
@@ -42,13 +42,13 @@ class SpotifyApiCallBackbone(ABC):
             'url': self._url
         }
 
-    def __send_http_request(self, requests_method: Callable) -> dict[str, Any]:
-        return requests_method(**self._request_json).json()
+    def __send_http_request(self, http_method: Callable) -> dict[str, Any]:
+        return http_method(**self._request_json).json()
 
     def _postprocess_request_json(self) -> dict[str, Any]:
         return self._request_json
 
-    def _postprocess_response_json(self) -> dict[str, Any]:
+    def _postprocess_response_json(self) -> Any:
         return self._response_json
 
     @abstractmethod
@@ -67,10 +67,10 @@ class Token(SpotifyApiCallBackbone):
     def _build_url(self):
         return 'https://accounts.spotify.com/api/token'
 
-    def _get_cached_response_json(self):
+    def _get_cached_response_json(self) -> Any | None:
         return self.token_cache_file.read()
 
-    def _build_request_json(self):
+    def _build_request_json(self) -> dict[str, Any]:
         return {
             'data': {
                 'grant_type': 'client_credentials'
@@ -84,7 +84,7 @@ class Token(SpotifyApiCallBackbone):
     def _select_http_method(self) -> Callable[..., Any]:
         return requests.post
 
-    def _postprocess_response_json(self):
+    def _postprocess_response_json(self) -> Any:
         access_token = self._response_json['access_token']
         token_type = self._response_json['token_type']
 

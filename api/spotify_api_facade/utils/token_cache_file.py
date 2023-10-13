@@ -8,11 +8,11 @@ class TokenCacheFile:
     def __init__(self) -> None:
         current_file_path = os.path.abspath(__file__)
         directory_name = os.path.dirname(current_file_path)
-        self.file_uri = os.path.join(
-            directory_name, 'access_token_parameters.json'
-        )
+        file_name = 'access_token_parameters.json'
 
-    def read(self):
+        self.file_uri = os.path.join(directory_name, file_name)
+
+    def read(self) -> tuple[str, str] | None:
         if self.__file_exists():
             access_token_parameters = self.__read_json()
             access_token = access_token_parameters['access_token']
@@ -24,7 +24,7 @@ class TokenCacheFile:
 
         return None
 
-    def write(self, token_json):
+    def write(self, token_json: dict[str, Any]) -> None:
         expires_in = token_json['expires_in']
         expiration_date = self.__calculate_expiration_date(expires_in)
         token_json['expiration_date'] = expiration_date

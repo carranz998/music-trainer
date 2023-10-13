@@ -6,7 +6,7 @@ from api.spotify_api_facade import SimilarArtistsUri
 
 
 @flowcharts_blueprint.route('/artist_to_artist')
-def generate_flowchart():
+def generate_flowchart() -> tuple[flask.Response, int]:
     source_artist_id = flask.request.json['source_artist_id']
     target_artist_id = flask.request.json['target_artist_id']
 
