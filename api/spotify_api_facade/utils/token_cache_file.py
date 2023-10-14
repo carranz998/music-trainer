@@ -14,24 +14,25 @@ class TokenCacheFile:
 
     def read(self) -> tuple[str, str] | None:
         if self.__file_exists():
-            access_token_parameters = self.__read_json()
-            access_token = access_token_parameters['access_token']
-            expiration_date = access_token_parameters['expiration_date']
-            token_type = access_token_parameters['token_type']
+            token_parameters = self.__read_json()
+            expiration_date = token_parameters['expiration_date']
 
             if not self.__is_expired(expiration_date):
+                access_token = token_parameters['access_token']
+                token_type = token_parameters['token_type']
+
                 return access_token, token_type
 
         return None
 
-    def write(self, token_json: dict[str, Any]) -> None:
-        expires_in = token_json['expires_in']
+    def write(self, token_parameters: dict[str, Any]) -> None:
+        expires_in = token_parameters['expires_in']
         expiration_date = self.__calculate_expiration_date(expires_in)
-        token_json['expiration_date'] = expiration_date
 
-        del token_json['expires_in']
+        token_parameters['expiration_date'] = expiration_date
+        del token_parameters['expires_in']
 
-        self.__write_json(token_json)
+        self.__write_json(token_parameters)
 
     def __calculate_expiration_date(self, duration_seconds: int) -> datetime:
         current_date = datetime.now().replace(microsecond=0)

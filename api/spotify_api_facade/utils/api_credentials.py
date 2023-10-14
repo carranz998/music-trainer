@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 @dataclass
 class ApiCredentials:
-    def __init__(self):
+    def __init__(self) -> None:
         client_id = os.environ.get('SPOTIFY_CLIENT_ID')
         client_secret = os.environ.get('SPOTIFY_CLIENT_SECRET')
 
