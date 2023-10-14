@@ -25,9 +25,14 @@ class SpotifyApiCallBackbone(ABC):
         self._request_json = self._postprocess_request_json()
 
         self._response_json = self.__send_http_request(http_method)
+        self._save_to_cache()
+
         self._response_json = self._postprocess_response_json()
 
         return self._response_json
+
+    def _save_to_cache(self) -> None:
+        pass
 
     def _get_cached_response_json(self) -> Any | None:
         return None
@@ -88,6 +93,7 @@ class Token(SpotifyApiCallBackbone):
         access_token = self._response_json['access_token']
         token_type = self._response_json['token_type']
 
-        self.token_cache_file.write(self._response_json)
-
         return access_token, token_type
+
+    def _save_to_cache(self) -> None:
+        self.token_cache_file.write(self._response_json)
