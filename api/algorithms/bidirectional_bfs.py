@@ -46,8 +46,10 @@ class BidirectionalBFS:
 
     def __forward_search(self) -> list[Any]:
         forward_current_node = self.forward_pending_nodes.pop(0)
+
         for neighbor_node in self.get_neighbors(forward_current_node):
             if neighbor_node not in self.forward_visited:
+
                 self.G.add_edge(forward_current_node, neighbor_node)
                 self.forward_visited.add(neighbor_node)
                 self.forward_parents[neighbor_node] = forward_current_node
@@ -61,8 +63,10 @@ class BidirectionalBFS:
 
     def __backward_search(self) -> list[Any]:
         backward_current_node = self.backward_pending_nodes.pop(0)
+
         for neighbor_node in self.get_neighbors(backward_current_node):
             if neighbor_node not in self.backward_visited:
+
                 self.G.add_edge(backward_current_node, neighbor_node)
                 self.backward_visited.add(neighbor_node)
                 self.backward_parents[neighbor_node] = backward_current_node
@@ -75,11 +79,10 @@ class BidirectionalBFS:
         return []
 
     def __create_path(self, meeting_node: Any) -> list[Any]:
-        forward_path = self.__reconstruct_path(
-            self.forward_parents, meeting_node)
-        backward_path = self.__reconstruct_path(
-            self.backward_parents, meeting_node, reverse=True
-        )
+        forward_path = self \
+            .__reconstruct_path(self.forward_parents, meeting_node)
+        backward_path = self \
+            .__reconstruct_path(self.backward_parents, meeting_node, reverse=True)
 
         return forward_path + backward_path
 
