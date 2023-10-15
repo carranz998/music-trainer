@@ -21,15 +21,17 @@ def generate_flowchart(source_artist_id: str, target_artist_id: str) -> tuple[fl
         similar_artists_gather
     )
 
-    formatted_data = {'flowchart': []}
+    formatted_data = {
+        'flowchart': list(__get_additional_artist_data(artists_uri_flowchart))
+    }
 
+    return flask.jsonify(formatted_data), 200
+
+
+def __get_additional_artist_data(artists_uri_flowchart):
     for i, artist_id in enumerate(artists_uri_flowchart, start=1):
-        data = {
+        yield {
             'artist_id': artist_id,
             'artist_name': ArtistName(artist_id).request_to_api(),
             'listening_order': i
         }
-
-        formatted_data['flowchart'].append(data)
-
-    return flask.jsonify(formatted_data), 200
