@@ -17,7 +17,16 @@ class BidirectionalBFS:
 
         self.get_neighbors = None
 
-    def search(self, source_node: Any, target_node: Any, get_neighbors: Callable):
+    def __init_pivots(self, source_node: Any, target_node: Any) -> None:
+        self.forward_pending_nodes = [source_node]
+        self.forward_visited = {source_node}
+        self.forward_parents = {source_node: None}
+
+        self.backward_pending_nodes = [target_node]
+        self.backward_visited = {target_node}
+        self.backward_parents = {target_node: None}
+
+    def search(self, source_node: Any, target_node: Any, get_neighbors: Callable) -> list[Any]:
         if source_node == target_node:
             return [source_node]
 
@@ -33,7 +42,9 @@ class BidirectionalBFS:
             if path:
                 return path
 
-    def __forward_search(self):
+        return []
+
+    def __forward_search(self) -> list[Any]:
         forward_current_node = self.forward_pending_nodes.pop(0)
         for neighbor_node in self.get_neighbors(forward_current_node):
             if neighbor_node not in self.forward_visited:
@@ -48,7 +59,7 @@ class BidirectionalBFS:
 
         return []
 
-    def __backward_search(self):
+    def __backward_search(self) -> list[Any]:
         backward_current_node = self.backward_pending_nodes.pop(0)
         for neighbor_node in self.get_neighbors(backward_current_node):
             if neighbor_node not in self.backward_visited:
@@ -63,18 +74,7 @@ class BidirectionalBFS:
 
         return []
 
-    def __init_pivots(self, source_node: Any, target_node: Any):
-        self.forward_pending_nodes = [source_node]
-        self.forward_visited = {source_node}
-        self.forward_parents = {source_node: None}
-
-        self.backward_pending_nodes = [target_node]
-        self.backward_visited = {target_node}
-        self.backward_parents = {target_node: None}
-
-    def __create_path(self, neighbor_node):
-        meeting_node = neighbor_node
-
+    def __create_path(self, meeting_node: Any) -> list[Any]:
         forward_path = self.__reconstruct_path(
             self.forward_parents, meeting_node)
         backward_path = self.__reconstruct_path(
@@ -83,12 +83,11 @@ class BidirectionalBFS:
 
         return forward_path + backward_path
 
-    def __reconstruct_path(self, parents, meeting_node, reverse=False):
+    def __reconstruct_path(self, parents, meeting_node: Any, reverse=False) -> list[Any]:
         path = []
-        current_node = meeting_node
 
-        while current_node is not None:
-            path.append(current_node)
-            current_node = parents[current_node]
+        while meeting_node is not None:
+            path.append(meeting_node)
+            meeting_node = parents[meeting_node]
 
         return path[::-1] if reverse else path
