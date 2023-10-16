@@ -10,8 +10,7 @@ from api.spotify_api_facade import AlbumTracksNames
     'album_id': str
 })
 def album_tracks_names(album_id: str) -> tuple[flask.Response, int]:
-    formatted_data = {
-        'album_tracks_names': AlbumTracksNames(album_id).request_to_api()
-    }
+    album_tracks_names = AlbumTracksNames(album_id).request_to_api()
+    formatted_data = {'album_tracks_names': album_tracks_names}
 
     return flask.jsonify(formatted_data), 200

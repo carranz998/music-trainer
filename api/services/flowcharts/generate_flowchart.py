@@ -12,18 +12,17 @@ from api.spotify_api_facade import ArtistName, SimilarArtistsUri
     'target_artist_id': str
 })
 def generate_flowchart(source_artist_id: str, target_artist_id: str) -> tuple[flask.Response, int]:
-    def similar_artists_gather(source_artist_id):
+    def get_neighbors(source_artist_id):
         return SimilarArtistsUri(source_artist_id).request_to_api()
 
     artists_uri_flowchart = generate_items_flowchart(
         source_artist_id,
         target_artist_id,
-        similar_artists_gather
+        get_neighbors
     )
 
-    formatted_data = {
-        'flowchart': list(__get_additional_artist_data(artists_uri_flowchart))
-    }
+    flowchart = list(__get_additional_artist_data(artists_uri_flowchart))
+    formatted_data = {'flowchart': flowchart}
 
     return flask.jsonify(formatted_data), 200
 

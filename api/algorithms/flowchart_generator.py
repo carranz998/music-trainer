@@ -5,13 +5,21 @@ import networkx as nx
 from api.algorithms.bidirectional_bfs import BidirectionalBFS
 
 
-def generate_items_flowchart(source_item_id: Any, target_item_id: Any, similar_items_gather: Callable):
+def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neighbors: Callable):
+    graph = __explore_graph(source_item_id, target_item_id, get_neighbors)
+    shortest_path = __find_shortest_path(graph, source_item_id, target_item_id)
+
+    return shortest_path
+
+
+def __explore_graph(source_item_id: Any, target_item_id: Any, get_neighbors: Callable) -> nx.Graph:
     bidirectional_bfs = BidirectionalBFS()
 
     bidirectional_bfs \
-        .search(source_item_id, target_item_id, similar_items_gather)
+        .explore(source_item_id, target_item_id, get_neighbors)
 
-    items_flowchart = nx \
-        .dijkstra_path(bidirectional_bfs.G, source_item_id, target_item_id)
+    return bidirectional_bfs.graph
 
-    return items_flowchart
+
+def __find_shortest_path(G: nx.Graph, source_item_id: Any, target_item_id: Any) -> list[Any]:
+    return nx.dijkstra_path(G, source_item_id, target_item_id)
