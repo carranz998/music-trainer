@@ -13,10 +13,13 @@ def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neigh
 
 
 def __explore_graph(source_item_id: Any, target_item_id: Any, get_neighbors: Callable) -> nx.Graph:
-    bidirectional_bfs = BidirectionalBFS()
+    bidirectional_bfs = BidirectionalBFS(nx.Graph(), get_neighbors)
 
-    bidirectional_bfs \
-        .explore(source_item_id, target_item_id, get_neighbors)
+    nodes_are_connected = bidirectional_bfs \
+        .explore_for_connection(source_item_id, target_item_id)
+
+    if not nodes_are_connected:
+        raise Exception('nodes are not connected in the graph')
 
     return bidirectional_bfs.graph
 
