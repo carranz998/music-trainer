@@ -21,5 +21,5 @@ def __explore_graph(source_item_id: Any, target_item_id: Any, get_neighbors: Cal
     return bidirectional_bfs.graph
 
 
-def __find_shortest_path(G: nx.Graph, source_item_id: Any, target_item_id: Any) -> list[Any]:
-    return nx.dijkstra_path(G, source_item_id, target_item_id)
+def __find_shortest_path(graph: nx.Graph, source_item_id: Any, target_item_id: Any) -> list[Any]:
+    return nx.dijkstra_path(graph, source_item_id, target_item_id)
