@@ -3,7 +3,8 @@ from typing import Any, Callable
 
 import requests
 
-from api.spotify_api_facade.utils.api_credentials import Api_Credentials
+from api.spotify_api_facade.utils.spotify_api_credential import \
+    spotify_api_credential
 from api.spotify_api_facade.utils.token_cache_file import Token_Cache_File
 
 
@@ -81,7 +82,7 @@ class Token(Spotify_Api_Call_Backbone):
                 'grant_type': 'client_credentials'
             },
             'headers': {
-                'Authorization': f'Basic {Api_Credentials().authorization_credentials}'
+                'Authorization': f'Basic {spotify_api_credential}'
             },
             'url': self._url
         }
