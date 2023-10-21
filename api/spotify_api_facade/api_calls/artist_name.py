@@ -3,10 +3,10 @@ from typing import Any, Callable
 import requests
 
 from api.spotify_api_facade.utils.spotify_api_call_backbone import \
-    SpotifyApiCallBackbone
+    Spotify_Api_Call_Backbone
 
 
-class ArtistName(SpotifyApiCallBackbone):
+class Artist_Name(Spotify_Api_Call_Backbone):
     def __init__(self, artist_id: str) -> None:
         self.artist_id = artist_id
 

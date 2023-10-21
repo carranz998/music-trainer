@@ -3,7 +3,7 @@ from typing import Any, Callable
 import networkx as nx
 
 
-class BidirectionalBFS:
+class Bidirectional_BFS:
     def __init__(self, graph: nx.Graph, get_neighbors: Callable) -> None:
         self.graph = graph
         self.get_neighbors = get_neighbors

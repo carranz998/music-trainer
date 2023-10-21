@@ -2,7 +2,7 @@ from typing import Any, Callable
 
 import networkx as nx
 
-from api.algorithms.bidirectional_bfs import BidirectionalBFS
+from api.algorithms.bidirectional_bfs import Bidirectional_BFS
 
 
 def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neighbors: Callable):
@@ -13,7 +13,7 @@ def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neigh
 
 
 def __explore_graph(source_item_id: Any, target_item_id: Any, get_neighbors: Callable) -> nx.Graph:
-    bidirectional_bfs = BidirectionalBFS(nx.Graph(), get_neighbors)
+    bidirectional_bfs = Bidirectional_BFS(nx.Graph(), get_neighbors)
 
     nodes_are_connected = bidirectional_bfs \
         .explore_for_connection(source_item_id, target_item_id)

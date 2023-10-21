@@ -3,11 +3,11 @@ from typing import Any, Callable
 
 import requests
 
-from api.spotify_api_facade.utils.api_credentials import ApiCredentials
-from api.spotify_api_facade.utils.token_cache_file import TokenCacheFile
+from api.spotify_api_facade.utils.api_credentials import Api_Credentials
+from api.spotify_api_facade.utils.token_cache_file import Token_Cache_File
 
 
-class SpotifyApiCallBackbone(ABC):
+class Spotify_Api_Call_Backbone(ABC):
     def __init__(self) -> None:
         self._url = None
         self._request_json = None
@@ -65,9 +65,9 @@ class SpotifyApiCallBackbone(ABC):
         pass
 
 
-class Token(SpotifyApiCallBackbone):
+class Token(Spotify_Api_Call_Backbone):
     def __init__(self) -> None:
-        self.token_cache_file = TokenCacheFile()
+        self.token_cache_file = Token_Cache_File()
 
     def _build_url(self):
         return 'https://accounts.spotify.com/api/token'
@@ -81,7 +81,7 @@ class Token(SpotifyApiCallBackbone):
                 'grant_type': 'client_credentials'
             },
             'headers': {
-                'Authorization': f'Basic {ApiCredentials().authorization_credentials}'
+                'Authorization': f'Basic {Api_Credentials().authorization_credentials}'
             },
             'url': self._url
         }
