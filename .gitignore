@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Spotify's access token parameters file
-api/spotify_api_facade/utils/access_token_parameters.json
+spotify_api_facade/utils/access_token_parameters.json

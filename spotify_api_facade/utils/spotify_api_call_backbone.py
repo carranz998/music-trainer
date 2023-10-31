@@ -3,8 +3,8 @@ from typing import Any, Callable
 
 import requests
 
-from api.credentials import spotify_api_credential
-from api.repositories import Token_Cache_File
+from spotify_api_facade.credentials import spotify_api_credential
+from spotify_api_facade.repositories import Token_Cache_File
 
 
 class Spotify_Api_Call_Backbone(ABC):

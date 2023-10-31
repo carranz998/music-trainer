@@ -2,7 +2,7 @@ from typing import Any, Callable
 
 import requests
 
-from api.spotify_api_facade.utils.spotify_api_call_backbone import \
+from spotify_api_facade.utils.spotify_api_call_backbone import \
     Spotify_Api_Call_Backbone
 
 

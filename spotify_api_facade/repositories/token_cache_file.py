@@ -46,9 +46,8 @@ class Token_Cache_File:
         return os.path.exists(self.file_uri)
 
     def __is_expired(self, expiration_date: str) -> bool:
-        expiration_date = datetime.strptime(
-            expiration_date, '%Y-%m-%d %H:%M:%S'
-        )
+        date_format = '%Y-%m-%d %H:%M:%S'
+        expiration_date = datetime.strptime(expiration_date, date_format)
 
         is_expired = datetime.now() > expiration_date
 

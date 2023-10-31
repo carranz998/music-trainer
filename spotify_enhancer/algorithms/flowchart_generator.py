@@ -2,7 +2,7 @@ from typing import Any, Callable
 
 import networkx as nx
 
-from api.algorithms.bidirectional_bfs import Bidirectional_BFS
+from spotify_enhancer.algorithms.bidirectional_bfs import Bidirectional_BFS
 
 
 def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neighbors: Callable):
