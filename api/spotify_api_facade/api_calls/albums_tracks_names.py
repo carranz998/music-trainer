@@ -7,11 +7,11 @@ from api.spotify_api_facade.utils.spotify_api_call_backbone import \
 
 
 class Album_Tracks_Names(Spotify_Api_Call_Backbone):
-    def __init__(self, album_id: str) -> None:
-        self.album_id = album_id
+    def __init__(self, spotify_album_id: str) -> None:
+        self.spotify_album_id = spotify_album_id
 
     def _build_url(self) -> str:
-        return f'https://api.spotify.com/v1/albums/{self.album_id}/tracks'
+        return f'https://api.spotify.com/v1/albums/{self.spotify_album_id}/tracks'
 
     def _select_http_method(self) -> Callable[..., Any]:
         return requests.get

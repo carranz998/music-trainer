@@ -1,7 +1,7 @@
 from api.services.albums.album_tracks_names import album_tracks_names
-from api.services.flowcharts.generate_flowchart import generate_flowchart
+from api.services.flowcharts.artist_to_artist import artist_to_artist
 
 __all__ = [
     'album_tracks_names',
-    'generate_flowchart'
+    'artist_to_artist'
 ]

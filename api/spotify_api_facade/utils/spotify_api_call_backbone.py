@@ -3,9 +3,8 @@ from typing import Any, Callable
 
 import requests
 
-from api.spotify_api_facade.utils.spotify_api_credential import \
-    spotify_api_credential
-from api.spotify_api_facade.utils.token_cache_file import Token_Cache_File
+from api.credentials import spotify_api_credential
+from api.repositories import Token_Cache_File
 
 
 class Spotify_Api_Call_Backbone(ABC):
@@ -14,7 +13,7 @@ class Spotify_Api_Call_Backbone(ABC):
         self._request_json = None
         self._response_json = None
 
-    def request_to_api(self) -> Any:
+    def request_to_spotify_api(self) -> Any:
         cached_response_json = self._get_cached_response_json()
         if cached_response_json:
             return cached_response_json
@@ -39,7 +38,7 @@ class Spotify_Api_Call_Backbone(ABC):
         return None
 
     def _build_request_json(self) -> dict[str, Any]:
-        access_token, token_type = Token().request_to_api()
+        access_token, token_type = Token().request_to_spotify_api()
 
         return {
             'headers': {
