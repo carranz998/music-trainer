@@ -2,20 +2,17 @@ from typing import Iterator
 
 import flask
 
-from spotify_api_facade.services import (get_artist_name,
-                                         get_similar_artists_uri)
-from spotify_enhancer.algorithms import generate_items_flowchart
-from spotify_enhancer.blueprints import flowcharts_blueprint
-from spotify_enhancer.decorators import request_json_validator
+from api.decorators import request_json_validator
+from spotify_api_facade import get_artist_name, get_similar_artists_uri
+from spotify_enhancer import get_artist_to_artist_flowchart
 
 
-@flowcharts_blueprint.route('/artist_to_artist')
 @request_json_validator({
     'source_spotify_artist_id': str,
     'target_spotify_artist_id': str
 })
 def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> tuple[flask.Response, int]:
-    artists_uri_flowchart = generate_items_flowchart(
+    artists_uri_flowchart = get_artist_to_artist_flowchart(
         source_spotify_artist_id,
         target_spotify_artist_id,
         get_similar_artists_uri

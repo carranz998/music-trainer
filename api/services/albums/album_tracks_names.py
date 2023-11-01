@@ -1,11 +1,9 @@
 import flask
 
-from spotify_api_facade.services import get_album_tracks_names
-from spotify_enhancer.blueprints import albums_blueprint
-from spotify_enhancer.decorators import request_json_validator
+from api.decorators import request_json_validator
+from spotify_api_facade import get_album_tracks_names
 
 
-@albums_blueprint.route('/album_tracks_names')
 @request_json_validator({
     'spotify_album_id': str
 })

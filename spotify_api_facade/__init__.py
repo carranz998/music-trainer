@@ -1,11 +1,11 @@
 from spotify_api_facade.services.albums_tracks_names import \
-    __Album_Tracks_Names
-from spotify_api_facade.services.artist_name import __Artist_Name
+    get_album_tracks_names
+from spotify_api_facade.services.artist_name import get_artist_name
 from spotify_api_facade.services.similar_artists_uri import \
-    __Similar_Artists_Uri
+    get_similar_artists_uri
 
 __all__ = [
-    '__Album_Tracks_Names',
-    '__Artist_Name',
-    '__Similar_Artists_Uri'
+    'get_album_tracks_names',
+    'get_artist_name',
+    'get_similar_artists_uri'
 ]
