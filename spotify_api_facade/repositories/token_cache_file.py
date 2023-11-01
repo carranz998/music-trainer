@@ -6,11 +6,7 @@ from typing import Any
 
 class Token_Cache_File:
     def __init__(self) -> None:
-        current_file_path = os.path.abspath(__file__)
-        directory_name = os.path.dirname(current_file_path)
-        file_name = 'access_token_parameters.json'
-
-        self.file_uri = os.path.join(directory_name, file_name)
+        self.file_uri = os.environ.get('ACCESS_TOKEN_PARAMETERS_PATH')
 
     def read(self) -> tuple[str, str] | None:
         if self.__file_exists():
