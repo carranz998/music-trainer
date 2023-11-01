@@ -18,23 +18,17 @@ def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: st
         get_similar_artists_uri
     )
 
-    flowchart = __get_additional_artist_data(artists_uri_flowchart)
+    flowchart = list(__get_additional_artist_data(artists_uri_flowchart))
 
     return flask.jsonify({'flowchart': flowchart}), 200
 
 
 def __get_additional_artist_data(artists_uri_flowchart: list[str]) -> Iterator[dict]:
-    additional_artist_data = []
-
     for i, spotify_artist_id in enumerate(artists_uri_flowchart, start=1):
-        spotify_artist_name = get_artist_name(spotify_artist_id)
+        artist_name = get_artist_name(spotify_artist_id)
 
-        artist_data = {
+        yield {
+            'artist_name': artist_name,
             'listening_order': i,
-            'spotify_artist_id': spotify_artist_id,
-            'spotify_artist_name': spotify_artist_name
+            'spotify_artist_id': spotify_artist_id
         }
-
-        additional_artist_data.append(artist_data)
-
-    return additional_artist_data
