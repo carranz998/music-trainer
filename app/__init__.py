@@ -1,6 +1,6 @@
 from flask import Flask
 
-from api.configs import identify_resources
+from app.configs import identify_resources
 
 
 def create_app():

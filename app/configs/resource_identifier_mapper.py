@@ -2,7 +2,7 @@ from typing import Callable
 
 from flask import Blueprint, Flask
 
-from api.resources import artist_to_artist, tracks_names
+from app.resources import artist_to_artist, tracks_names
 
 
 def __create_url_rule_config(view_func: Callable) -> tuple[str, str, Callable]:

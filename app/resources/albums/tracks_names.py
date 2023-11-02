@@ -1,6 +1,6 @@
 import flask
 
-from api.decorators import request_json_validator
+from app.decorators import request_json_validator
 from spotify_api_facade import get_album_tracks_names
 
 
