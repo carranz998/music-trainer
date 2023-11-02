@@ -7,7 +7,7 @@ from spotify_api_facade import get_album_tracks_names
 @request_json_validator({
     'spotify_album_id': str
 })
-def album_tracks_names(spotify_album_id: str) -> tuple[flask.Response, int]:
+def tracks_names(spotify_album_id: str) -> tuple[flask.Response, int]:
     try:
         album_tracks_names = get_album_tracks_names(spotify_album_id)
 
