@@ -1,6 +1,6 @@
 from typing import Iterator
 
-import flask
+from flask import Response, jsonify
 
 from app.decorators import request_json_validator
 from spotify_api_facade import get_artist_name, get_similar_artists_uri
@@ -11,7 +11,7 @@ from spotify_enhancer import get_artist_to_artist_flowchart
     'source_spotify_artist_id': str,
     'target_spotify_artist_id': str
 })
-def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> tuple[flask.Response, int]:
+def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> tuple[Response, int]:
     artists_uri_flowchart = get_artist_to_artist_flowchart(
         source_spotify_artist_id,
         target_spotify_artist_id,
@@ -20,7 +20,7 @@ def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: st
 
     flowchart = list(__get_additional_artist_data(artists_uri_flowchart))
 
-    return flask.jsonify({'flowchart': flowchart}), 200
+    return jsonify({'flowchart': flowchart}), 200
 
 
 def __get_additional_artist_data(artists_uri_flowchart: list[str]) -> Iterator[dict]:
