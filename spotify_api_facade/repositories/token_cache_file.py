@@ -32,27 +32,36 @@ class Token_Cache_File:
 
     def __calculate_expiration_date(self, duration_seconds: int) -> datetime:
         current_date = datetime.now().replace(microsecond=0)
-        duration_seconds = timedelta(seconds=duration_seconds)
+        duration_timedelta = timedelta(seconds=duration_seconds)
 
-        expiration_date = current_date + duration_seconds
+        expiration_date = current_date + duration_timedelta
 
         return expiration_date
 
     def __file_exists(self) -> bool:
+        if self.file_uri is None:
+            return False
+
         return os.path.exists(self.file_uri)
 
-    def __is_expired(self, expiration_date: str) -> bool:
+    def __is_expired(self, expiration_date_str: str) -> bool:
         date_format = '%Y-%m-%d %H:%M:%S'
-        expiration_date = datetime.strptime(expiration_date, date_format)
+        expiration_date = datetime.strptime(expiration_date_str, date_format)
 
         is_expired = datetime.now() > expiration_date
 
         return is_expired
 
-    def __read_json(self) -> dict[str, Any]:
+    def __read_json(self) -> Any:
+        if self.file_uri is None:
+            raise Exception()
+
         with open(self.file_uri, 'r') as fp:
             return json.load(fp)
 
     def __write_json(self, data: dict[str, Any]) -> None:
+        if self.file_uri is None:
+            raise Exception()
+
         with open(self.file_uri, 'w') as fp:
             json.dump(data, fp, indent=4, sort_keys=True, default=str)

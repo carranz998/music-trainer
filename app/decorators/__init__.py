@@ -1,5 +1,5 @@
-from app.decorators.request_json_validator import request_json_validator
+from app.decorators.request_json_validator import Request_Json_Validator
 
 __all__ = [
-    'request_json_validator'
+    'Request_Json_Validator'
 ]

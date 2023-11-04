@@ -1,10 +1,11 @@
-from typing import Any, Callable
+from types import FunctionType
+from typing import Any, List, Set
 
 import networkx as nx
 
 
 class Bidirectional_BFS:
-    def __init__(self, graph: nx.Graph, get_neighbors: Callable) -> None:
+    def __init__(self, graph: nx.Graph, get_neighbors: FunctionType) -> None:
         self.graph = graph
         self.get_neighbors = get_neighbors
 
@@ -33,7 +34,7 @@ class Bidirectional_BFS:
 
         return False
 
-    def __search(self, pending_nodes: list, visited_set: set, opposite_visited_set: set) -> bool:
+    def __search(self, pending_nodes: List[str], visited_set: Set[str], opposite_visited_set: Set[str]) -> bool:
         current_node = pending_nodes.pop(0)
 
         for neighbor_node in self.get_neighbors(current_node):

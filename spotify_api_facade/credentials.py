@@ -4,7 +4,12 @@ import os
 
 def __get_credential() -> str:
     client_id = os.environ.get('SPOTIFY_CLIENT_ID')
+    if client_id is None:
+        raise Exception('there is no SPOTIFY_CLIENT_ID')
+
     client_secret = os.environ.get('SPOTIFY_CLIENT_SECRET')
+    if client_secret is None:
+        raise Exception('there is no SPOTIFY_CLIENT_SECRET')
 
     return client_id + ':' + client_secret
 

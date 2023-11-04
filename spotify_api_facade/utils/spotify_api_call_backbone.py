@@ -1,35 +1,39 @@
 from abc import ABC, abstractmethod
-from typing import Any, Callable
-
-import requests
+from typing import Any, Dict
 
 from spotify_api_facade.credentials import spotify_api_credential
 from spotify_api_facade.repositories import Token_Cache_File
+from spotify_api_facade.utils.http_response_factory import \
+    HTTP_Response_Factory
 
 
 class Spotify_Api_Call_Backbone(ABC):
     def __init__(self) -> None:
-        self._url = None
-        self._request_json = None
-        self._response_json = None
+        self._request_json: Dict[str, Any] = dict()
+        self._response_json: Dict[str, Any] = dict()
 
     def request_to_spotify_api(self) -> Any:
         cached_response_json = self._get_cached_response_json()
         if cached_response_json:
             return cached_response_json
 
-        self._url = self._build_url()
-        http_method = self._select_http_method()
+        self._request_json = self._set_request_json()
 
-        self._request_json = self._build_request_json()
-        self._request_json = self._postprocess_request_json()
+        url = self._set_url()
+        http_method = self._set_http_method()
 
-        self._response_json = self.__send_http_request(http_method)
+        self._response_json = self.__send_http_request(
+            http_method, url, self._request_json
+        )
+
         self._save_to_cache()
 
         self._response_json = self._postprocess_response_json()
 
         return self._response_json
+
+    def __send_http_request(self, http_method: str, url: str, request_json: dict[str, Any]) -> Any:
+        return HTTP_Response_Factory.request_to_server(http_method, url, request_json)
 
     def _save_to_cache(self) -> None:
         pass
@@ -37,31 +41,27 @@ class Spotify_Api_Call_Backbone(ABC):
     def _get_cached_response_json(self) -> Any | None:
         return None
 
-    def _build_request_json(self) -> dict[str, Any]:
+    def _set_request_json(self) -> dict[str, Any]:
         access_token, token_type = Token().request_to_spotify_api()
 
         return {
             'headers': {
                 'Authorization': f'{token_type} {access_token}'
-            },
-            'url': self._url
+            }
         }
 
-    def __send_http_request(self, http_method: Callable) -> dict[str, Any]:
-        return http_method(**self._request_json).json()
-
-    def _postprocess_request_json(self) -> dict[str, Any]:
+    def _postprocess_request_json(self) -> Any:
         return self._request_json
 
     def _postprocess_response_json(self) -> Any:
         return self._response_json
 
     @abstractmethod
-    def _build_url(self) -> str:
+    def _set_url(self) -> str:
         pass
 
     @abstractmethod
-    def _select_http_method(self) -> Callable:
+    def _set_http_method(self) -> str:
         pass
 
 
@@ -69,25 +69,24 @@ class Token(Spotify_Api_Call_Backbone):
     def __init__(self) -> None:
         self.token_cache_file = Token_Cache_File()
 
-    def _build_url(self):
+    def _set_url(self) -> str:
         return 'https://accounts.spotify.com/api/token'
+
+    def _set_http_method(self) -> str:
+        return 'post'
 
     def _get_cached_response_json(self) -> Any | None:
         return self.token_cache_file.read()
 
-    def _build_request_json(self) -> dict[str, Any]:
+    def _set_request_json(self) -> dict[str, Any]:
         return {
             'data': {
                 'grant_type': 'client_credentials'
             },
             'headers': {
                 'Authorization': f'Basic {spotify_api_credential}'
-            },
-            'url': self._url
+            }
         }
-
-    def _select_http_method(self) -> Callable[..., Any]:
-        return requests.post
 
     def _postprocess_response_json(self) -> Any:
         access_token = self._response_json['access_token']
