@@ -7,7 +7,7 @@ from spotify_api_facade.utils.http_response_factory import \
     HTTP_Response_Factory
 
 
-class Spotify_Api_Call_Backbone(ABC):
+class Spotify_Api_Request_Handler(ABC):
     def __init__(self) -> None:
         self._request_json: Dict[str, Any] = dict()
         self._response_json: Dict[str, Any] = dict()
@@ -42,7 +42,8 @@ class Spotify_Api_Call_Backbone(ABC):
         return None
 
     def _set_request_json(self) -> dict[str, Any]:
-        access_token, token_type = Token().request_to_spotify_api()
+        spotify_api_token = Spotify_Api_Token()
+        access_token, token_type = spotify_api_token.request_to_spotify_api()
 
         return {
             'headers': {
@@ -65,7 +66,7 @@ class Spotify_Api_Call_Backbone(ABC):
         pass
 
 
-class Token(Spotify_Api_Call_Backbone):
+class Spotify_Api_Token(Spotify_Api_Request_Handler):
     def __init__(self) -> None:
         self.token_cache_file = Token_Cache_File()
 

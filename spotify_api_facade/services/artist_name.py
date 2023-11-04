@@ -1,10 +1,10 @@
 from typing import Any
 
-from spotify_api_facade.utils.spotify_api_call_backbone import \
-    Spotify_Api_Call_Backbone
+from spotify_api_facade.utils.spotify_api_request_handler import \
+    Spotify_Api_Request_Handler
 
 
-class __Artist_Name(Spotify_Api_Call_Backbone):
+class __Artist_Name(Spotify_Api_Request_Handler):
     def __init__(self, artist_id: str) -> None:
         self.artist_id = artist_id
 
