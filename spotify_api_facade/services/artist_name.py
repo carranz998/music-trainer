@@ -1,6 +1,6 @@
 from typing import Any
 
-from spotify_api_facade.utils.spotify_api_request_handler import \
+from spotify_api_facade.middleware.spotify_api_request_handler import \
     Spotify_Api_Request_Handler
 
 

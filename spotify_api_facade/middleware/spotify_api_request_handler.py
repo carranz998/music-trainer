@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict
 
 from spotify_api_facade.credentials import spotify_api_credential
-from spotify_api_facade.repositories import Token_Cache_File
-from spotify_api_facade.utils.http_response_factory import \
+from spotify_api_facade.middleware.http_response_factory import \
     HTTP_Response_Factory
+from spotify_api_facade.repositories import Token_Cache_File
 
 
 class Spotify_Api_Request_Handler(ABC):
