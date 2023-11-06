@@ -5,10 +5,14 @@ from spotify_api_facade.middleware.spotify_api_request_handler import \
 
 
 class Artist_Name(Spotify_Api_Request_Handler):
+    """
+    Handles requests to the Spotify API to retrieve the names of a given artist.
+    """
+
     def __init__(self, spotify_artist_id: str) -> None:
         self.spotify_artist_id = spotify_artist_id
 
-    def _set_url(self) -> str:
+    def _set_request_url(self) -> str:
         return f'https://api.spotify.com/v1/artists/{self.spotify_artist_id}'
 
     def _set_http_method(self) -> str:

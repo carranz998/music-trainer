@@ -4,6 +4,11 @@ from requests import get, post
 
 
 class HTTP_Response_Factory:
+    """
+    Sends HTTP requests to a specified URL using any HTTP
+    method and handle the JSON response from the server.
+    """
+
     @staticmethod
     def request_to_server(http_method: str, url: str, request_json: dict[str, Any]) -> Any:
         if http_method == 'get':

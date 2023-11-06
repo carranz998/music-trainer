@@ -9,8 +9,8 @@ from spotify_api_facade.repositories import Token_Cache_File
 
 class Spotify_Api_Request_Handler(ABC):
     """
-    Abstract base class that serves as a blueprint
-    for handling requests to the Spotify API.
+    Handles requests to the Spotify API providing a template
+    method whose steps can be implemented by its subclasses.
     """
 
     def __init__(self) -> None:
@@ -24,7 +24,7 @@ class Spotify_Api_Request_Handler(ABC):
 
         self._request_json = self._set_request_json()
 
-        url = self._set_url()
+        url = self._set_request_url()
         http_method = self._set_http_method()
 
         self._response_json = self.__send_http_request(
@@ -63,7 +63,7 @@ class Spotify_Api_Request_Handler(ABC):
         return self._response_json
 
     @abstractmethod
-    def _set_url(self) -> str:
+    def _set_request_url(self) -> str:
         pass
 
     @abstractmethod
@@ -73,14 +73,13 @@ class Spotify_Api_Request_Handler(ABC):
 
 class Spotify_Api_Token(Spotify_Api_Request_Handler):
     """
-    Handle Spotify API authentication tokens.
-    Inherits from Spotify_Api_Request_Handler.
+    Handles requests to the Spotify API to retrieve the Spotify API token.
     """
 
     def __init__(self) -> None:
         self.token_cache_file = Token_Cache_File()
 
-    def _set_url(self) -> str:
+    def _set_request_url(self) -> str:
         return 'https://accounts.spotify.com/api/token'
 
     def _set_http_method(self) -> str:
