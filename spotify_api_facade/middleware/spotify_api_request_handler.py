@@ -8,6 +8,11 @@ from spotify_api_facade.repositories import Token_Cache_File
 
 
 class Spotify_Api_Request_Handler(ABC):
+    """
+    Abstract base class that serves as a blueprint
+    for handling requests to the Spotify API.
+    """
+
     def __init__(self) -> None:
         self._request_json: Dict[str, Any] = dict()
         self._response_json: Dict[str, Any] = dict()
@@ -67,6 +72,11 @@ class Spotify_Api_Request_Handler(ABC):
 
 
 class Spotify_Api_Token(Spotify_Api_Request_Handler):
+    """
+    Handle Spotify API authentication tokens.
+    Inherits from Spotify_Api_Request_Handler.
+    """
+
     def __init__(self) -> None:
         self.token_cache_file = Token_Cache_File()
 
