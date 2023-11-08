@@ -47,8 +47,7 @@ class Spotify_Api_Request_Handler(ABC):
         return None
 
     def _set_request_json(self) -> dict[str, Any]:
-        spotify_api_token = Spotify_Api_Token()
-        access_token, token_type = spotify_api_token.request_to_spotify_api()
+        access_token, token_type = Spotify_Api_Token().request_to_spotify_api()
 
         return {
             'headers': {
