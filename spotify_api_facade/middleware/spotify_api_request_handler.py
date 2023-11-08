@@ -37,7 +37,7 @@ class Spotify_Api_Request_Handler(ABC):
 
         return self._response_json
 
-    def __send_http_request(self, http_method: str, url: str, request_json: dict[str, Any]) -> Any:
+    def __send_http_request(self, http_method: str, url: str, request_json: Dict[str, Any]) -> Any:
         return HTTP_Response_Factory.request_to_server(http_method, url, request_json)
 
     def _save_to_cache(self) -> None:
@@ -46,7 +46,7 @@ class Spotify_Api_Request_Handler(ABC):
     def _get_cached_response_json(self) -> Any | None:
         return None
 
-    def _set_request_json(self) -> dict[str, Any]:
+    def _set_request_json(self) -> Dict[str, Any]:
         access_token, token_type = Spotify_Api_Token().request_to_spotify_api()
 
         return {
@@ -87,7 +87,7 @@ class Spotify_Api_Token(Spotify_Api_Request_Handler):
     def _get_cached_response_json(self) -> Any | None:
         return self.token_cache_file.read()
 
-    def _set_request_json(self) -> dict[str, Any]:
+    def _set_request_json(self) -> Dict[str, Any]:
         return {
             'data': {
                 'grant_type': 'client_credentials'

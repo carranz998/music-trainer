@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterator
+from typing import Any, Dict, Iterator, List
 
 from flask import Response, jsonify
 
@@ -23,7 +23,7 @@ def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: st
     return jsonify({'flowchart': flowchart}), 200
 
 
-def __get_additional_artist_data(artists_uri_flowchart: list[str]) -> Iterator[Dict[str, Any]]:
+def __get_additional_artist_data(artists_uri_flowchart: List[str]) -> Iterator[Dict[str, Any]]:
     for i, spotify_artist_id in enumerate(artists_uri_flowchart, start=1):
         yield {
             'artist_name': get_artist_name(spotify_artist_id),

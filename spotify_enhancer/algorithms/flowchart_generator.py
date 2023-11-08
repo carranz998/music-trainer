@@ -1,12 +1,12 @@
 from types import FunctionType
-from typing import Any
+from typing import Any, List
 
 import networkx as nx
 
 from spotify_enhancer.algorithms.bidirectional_bfs import Bidirectional_BFS
 
 
-def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neighbors: FunctionType) -> list[Any]:
+def generate_items_flowchart(source_item_id: Any, target_item_id: Any, get_neighbors: FunctionType) -> List[Any]:
     graph = __explore_graph(source_item_id, target_item_id, get_neighbors)
     shortest_path = __find_shortest_path(graph, source_item_id, target_item_id)
 
@@ -25,8 +25,8 @@ def __explore_graph(source_item_id: Any, target_item_id: Any, get_neighbors: Fun
     return bidirectional_bfs.graph
 
 
-def __find_shortest_path(graph: nx.Graph, source_item_id: Any, target_item_id: Any) -> list[Any]:
-    shortest_path: list[Any] = nx \
+def __find_shortest_path(graph: nx.Graph, source_item_id: Any, target_item_id: Any) -> List[Any]:
+    shortest_path: List[Any] = nx \
         .dijkstra_path(graph, source_item_id, target_item_id)
 
     return shortest_path

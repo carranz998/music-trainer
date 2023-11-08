@@ -1,16 +1,16 @@
 from functools import wraps
-from typing import Any
+from typing import Any, Dict, List
 
 from flask import request
 
 
 class Request_Json_Validator:
-    def __init__(self, types_dict: dict[str, Any]):
+    def __init__(self, types_dict: Dict[str, Any]):
         self.types_dict = types_dict
 
     def __call__(self, func: Any) -> Any:
         @wraps(func)
-        def wrapper(*args: list[Any], **kwargs: dict[str, Any]) -> Any:
+        def wrapper(*args: List[Any], **kwargs: Dict[str, Any]) -> Any:
             self.__request_is_json()
             json_data: Any = request.get_json()
             self.__validate_json_data(self.types_dict, json_data)
@@ -25,7 +25,7 @@ class Request_Json_Validator:
             raise Exception('Invalid JSON')
 
     @staticmethod
-    def __validate_json_data(types_dict: dict[str, Any], json_data: dict[str, Any]) -> None:
+    def __validate_json_data(types_dict: Dict[str, Any], json_data: Dict[str, Any]) -> None:
         for key, expected_type in types_dict.items():
             if key not in json_data:
                 raise Exception(f'Missing key {key} of type {expected_type}')

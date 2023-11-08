@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict
 
 
 class Token_Cache_File:
@@ -21,7 +21,7 @@ class Token_Cache_File:
 
         return None
 
-    def write(self, token_parameters: dict[str, Any]) -> None:
+    def write(self, token_parameters: Dict[str, Any]) -> None:
         expires_in = token_parameters['expires_in']
         expiration_date = self.__calculate_expiration_date(expires_in)
 
@@ -59,7 +59,7 @@ class Token_Cache_File:
         with open(self.file_uri, 'r') as fp:
             return json.load(fp)
 
-    def __write_json(self, data: dict[str, Any]) -> None:
+    def __write_json(self, data: Dict[str, Any]) -> None:
         if self.file_uri is None:
             raise Exception()
 
