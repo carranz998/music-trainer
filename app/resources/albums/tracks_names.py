@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from flask import Response, jsonify
 
 from app.decorators import Request_Json_Validator
@@ -7,7 +9,7 @@ from spotify_api_facade import get_album_tracks_names
 @Request_Json_Validator({
     'spotify_album_id': str
 })
-def tracks_names(spotify_album_id: str) -> tuple[Response, int]:
+def tracks_names(spotify_album_id: str) -> Tuple[Response, int]:
     try:
         album_tracks_names = get_album_tracks_names(spotify_album_id)
 

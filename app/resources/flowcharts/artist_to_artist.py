@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterator, List
+from typing import Any, Dict, Iterator, List, Tuple
 
 from flask import Response, jsonify
 
@@ -11,7 +11,7 @@ from spotify_enhancer import get_artist_to_artist_flowchart
     'source_spotify_artist_id': str,
     'target_spotify_artist_id': str
 })
-def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> tuple[Response, int]:
+def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> Tuple[Response, int]:
     artists_uri_flowchart = get_artist_to_artist_flowchart(
         source_spotify_artist_id,
         target_spotify_artist_id,

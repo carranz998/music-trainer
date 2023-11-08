@@ -5,7 +5,7 @@ from flask import request
 
 
 class Request_Json_Validator:
-    def __init__(self, types_dict: Dict[str, Any]):
+    def __init__(self, types_dict: Dict[str, Any]) -> None:
         self.types_dict = types_dict
 
     def __call__(self, func: Any) -> Any:

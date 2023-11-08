@@ -1,14 +1,14 @@
 import json
 import os
 from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 
 
 class Token_Cache_File:
     def __init__(self) -> None:
         self.file_uri = os.environ.get('ACCESS_TOKEN_PARAMETERS_PATH')
 
-    def read(self) -> tuple[str, str] | None:
+    def read(self) -> Tuple[str, str] | None:
         if self.__file_exists():
             token_parameters = self.__read_json()
             expiration_date = token_parameters['expiration_date']

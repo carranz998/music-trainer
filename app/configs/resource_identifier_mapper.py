@@ -1,4 +1,5 @@
 from types import FunctionType
+from typing import Tuple
 
 from flask import Blueprint, Flask
 
@@ -9,7 +10,7 @@ def __create_blueprint(url_prefix: str) -> Blueprint:
     return Blueprint(url_prefix, __name__, url_prefix=f'/{url_prefix}')
 
 
-def __create_url_rule_config(view_func: FunctionType) -> tuple[str, str, FunctionType]:
+def __create_url_rule_config(view_func: FunctionType) -> Tuple[str, str, FunctionType]:
     rule = f'/{view_func.__name__}'
     endpoint = f'{view_func.__name__}'
     return rule, endpoint, view_func
