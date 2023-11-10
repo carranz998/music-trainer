@@ -1,6 +1,8 @@
-from spotify_enhancer.algorithms.flowchart_generator import \
-    generate_items_flowchart
+from spotify_enhancer.algorithms.bidirectional_bfs import Bidirectional_BFS
+from spotify_enhancer.algorithms.unexplored_graph_shortest_path import \
+    Unexplored_Graph_Shortest_Path
 
 __all__ = [
-    'generate_items_flowchart'
+    'Bidirectional_BFS',
+    'Unexplored_Graph_Shortest_Path'
 ]

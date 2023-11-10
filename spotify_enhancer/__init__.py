@@ -1,6 +1,6 @@
-from spotify_enhancer.services.artist_to_artist import \
-    get_artist_to_artist_flowchart
+from spotify_enhancer.services.artist_flowchart import \
+    generate_artist_flowchart
 
 __all__ = [
-    'get_artist_to_artist_flowchart'
+    'generate_artist_flowchart'
 ]

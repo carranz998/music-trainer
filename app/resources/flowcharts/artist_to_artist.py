@@ -4,7 +4,7 @@ from flask import Response, jsonify
 
 from app.decorators import Request_Json_Validator
 from spotify_api_facade import get_artist_name, get_similar_artists_uri
-from spotify_enhancer import get_artist_to_artist_flowchart
+from spotify_enhancer import generate_artist_flowchart
 
 
 @Request_Json_Validator({
@@ -12,13 +12,13 @@ from spotify_enhancer import get_artist_to_artist_flowchart
     'target_spotify_artist_id': str
 })
 def artist_to_artist(source_spotify_artist_id: str, target_spotify_artist_id: str) -> Tuple[Response, int]:
-    artists_uri_flowchart = get_artist_to_artist_flowchart(
+    artist_flowchart = generate_artist_flowchart(
         source_spotify_artist_id,
         target_spotify_artist_id,
         get_similar_artists_uri
     )
 
-    flowchart = list(__get_additional_artist_data(artists_uri_flowchart))
+    flowchart = list(__get_additional_artist_data(artist_flowchart))
 
     return jsonify({'flowchart': flowchart}), 200
 

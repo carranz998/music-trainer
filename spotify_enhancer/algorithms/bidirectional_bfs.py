@@ -3,13 +3,15 @@ from typing import Any, List, Set
 
 import networkx as nx
 
+from spotify_enhancer.algorithms.graph_exploration_algorithm import \
+    Graph_Exploration_Algorithm
 
-class Bidirectional_BFS:
+
+class Bidirectional_BFS(Graph_Exploration_Algorithm):
     def __init__(self, graph: nx.Graph, get_neighbors: FunctionType) -> None:
-        self.graph = graph
-        self.get_neighbors = get_neighbors
+        super().__init__(graph, get_neighbors)
 
-    def explore_for_connection(self, source_node: Any, target_node: Any) -> bool:
+    def check_connection_between_nodes(self, source_node: Any, target_node: Any) -> bool:
         if source_node == target_node:
             return True
 
