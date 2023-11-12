@@ -1,10 +1,12 @@
 from flask import Flask
 
-from app.configs import identify_resources
+from api_blueprint_scraper import scrap_blueprints_routes
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    identify_resources(app)
+
+    for blueprint in scrap_blueprints_routes('app/resources'):
+        app.register_blueprint(blueprint)
 
     return app
